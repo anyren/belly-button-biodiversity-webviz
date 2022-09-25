@@ -2,49 +2,65 @@
 // data retreival
 const url = "https://2u-data-curriculum-team.s3.amazonaws.com/dataviz-classroom/v1.1/14-Interactive-Web-Visualizations/02-Homework/samples.json"
 
+
+// d3.select('#selInd')
+//   .on('change', function() {
+//     var selectedID = eval(d3.select(this).property('value'));
+// });
+let selectedID=0;
+let samples;
+let metadata;
+
 d3.json(url).then(function(data) {
-    
     let names = (data['names']);
-    let samples = (data['samples']);
-    let metadata = (data['metadata']);
+    samples = (data['samples']);
+    metadata = (data['metadata']);
     
+    // populate dropdown options
     let select = document.getElementById("selInd");
     let options = names;
-
     for(let i = 0; i < options.length; i++) {
         let opt = options[i];
         let el = document.createElement("option");
         el.textContent = opt;
         el.value = i;
         select.add(el);
-    }
-    console.log(select.value);
-    console.log(samples);
-    console.log(metadata);
-    //updatePlotly(data);
-    topTenOTU(samples);
-    bubble(samples);
-    gauge(metadata);
+    };
+
+    // initialize page
+    loadPage(selectedID, samples, metadata);
 
 });
 
 
-// watch for change to dropdown
+// // watch for change to dropdown
 d3.selectAll("#selInd").on("change", getID);
 
-
 function getID(){
-    console.log("updating");
+    //console.log("updating");
     //dropdown event handling
     var dropdownMenu = d3.select("#selInd");
     var selectedID = dropdownMenu.property("value");
-    return(selectedID);
+    console.log(`ID function ${selectedID}`);
+    loadPage(selectedID, samples, metadata);
 };
 
-//update plot
-function topTenOTU(sampleData) {
+console.log(samples);
+console.log(metadata);
+console.log(selectedID);
 
-    let i = 0;
+function loadPage(selectedID, samples, metadata){
+    topTenOTU(selectedID, samples);
+    bubble(samples);
+    gauge(metadata);
+
+};
+
+
+//update plot
+function topTenOTU(selectedID, sampleData) {
+    console.log(`top ten function: ${selectedID}`);
+    let i = selectedID;
     let subject = sampleData[i];
     let otuTen = subject['otu_ids'].slice(0,10).map((item)=> 'OTU_'+ item.toString()).reverse();
     let sampleVolTen = subject['sample_values'].slice(0,10).reverse();
