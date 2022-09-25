@@ -3,31 +3,47 @@
 const url = "https://2u-data-curriculum-team.s3.amazonaws.com/dataviz-classroom/v1.1/14-Interactive-Web-Visualizations/02-Homework/samples.json"
 
 d3.json(url).then(function(data) {
+    
+    let names = (data['names']);
     let samples = (data['samples']);
     let metadata = (data['metadata']);
+    
+    let select = document.getElementById("selInd");
+    let options = names;
+
+    for(let i = 0; i < options.length; i++) {
+        let opt = options[i];
+        let el = document.createElement("option");
+        el.textContent = opt;
+        el.value = i;
+        select.add(el);
+    }
+    console.log(select.value);
     console.log(samples);
     console.log(metadata);
+    //updatePlotly(data);
     topTenOTU(samples);
     bubble(samples);
     gauge(metadata);
+
 });
 
-// load initial bar graph
 
 // watch for change to dropdown
-//d3.selectAll("#selInd").on("change", updatePlotly)
+d3.selectAll("#selInd").on("change", getID);
+
+
+function getID(){
+    console.log("updating");
+    //dropdown event handling
+    var dropdownMenu = d3.select("#selInd");
+    var selectedID = dropdownMenu.property("value");
+    return(selectedID);
+};
 
 //update plot
 function topTenOTU(sampleData) {
 
-    // dropdown event handling
-    // let dropdownMenu = d3.select("#selInd");
-    // let dataset = dropdownMenu.property("value");
-
-    // for(let i=0; i < sampleData.length; i++){
-    //     let otu = sampleData[i]['otu_ids'];
-    //     let sampleVol = sampleData[i]['sample_values'];
-    // };
     let i = 0;
     let subject = sampleData[i];
     let otuTen = subject['otu_ids'].slice(0,10).map((item)=> 'OTU_'+ item.toString()).reverse();
@@ -49,25 +65,6 @@ function topTenOTU(sampleData) {
     
     Plotly.newPlot("top-ten", data, layout);
     
-    // let ordered
-    // // Initialize x and y arrays
-    // let x = [];
-    // let y = [];
-
-    // if (dataset === 'dataset1') {
-    //     x = sampleData[0]['sample_values'];
-    //     y = sampleData[0]['otu_ids'];
-
-    // }
-
-    // else if (dataset === 'dataset2') {
-    //     x = [10, 20, 30, 40, 50];
-    //     y = [1, 10, 100, 100, 10];
-    // }
-
-    // // Note the extra brackets around 'x' and 'y'
-    // Plotly.restyle("bar-graph", "x", [x]);
-    // Plotly.restyle("bar-graph", "y", [y]);
 };
 
 function bubble(sampleData){
