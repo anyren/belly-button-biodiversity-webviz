@@ -2,11 +2,6 @@
 // data retreival
 const url = "https://2u-data-curriculum-team.s3.amazonaws.com/dataviz-classroom/v1.1/14-Interactive-Web-Visualizations/02-Homework/samples.json"
 
-
-// d3.select('#selInd')
-//   .on('change', function() {
-//     var selectedID = eval(d3.select(this).property('value'));
-// });
 let selectedID=0;
 let samples;
 let metadata;
@@ -41,25 +36,60 @@ function getID(){
     //dropdown event handling
     var dropdownMenu = d3.select("#selInd");
     var selectedID = dropdownMenu.property("value");
-    console.log(`ID function ${selectedID}`);
     loadPage(selectedID, samples, metadata);
 };
 
-console.log(samples);
-console.log(metadata);
-console.log(selectedID);
-
 function loadPage(selectedID, samples, metadata){
     topTenOTU(selectedID, samples);
-    bubble(samples);
-    gauge(metadata);
-
+    bubble(selectedID, samples);
+    gauge(selectedID, metadata);
+    clearTable();
+    demoTable(selectedID, metadata);
 };
 
+function clearTable(){
+    let table = document.getElementById("demo");
+    let rows = table.rows.length;
+    // remove header row
+    if(table.getElementsByTagName("thead")[0]){
+        let thead = table.getElementsByTagName("thead")[0];
+        table.removeChild(thead);
+    };
+    //remove table body
+    if(table.getElementsByTagName("tbody")[0]){
+        let tbody = table.getElementsByTagName("tbody")[0];
+        table.removeChild(tbody);
+    };
+    };
 
-//update plot
+function demoTable(selectedID, metadata){
+    let table = document.getElementById("demo");
+    md = metadata[selectedID];
+    let keys = Object.keys(md);
+    let values = Object.values(md);
+    // add header 
+    let header = table.createTHead();
+    let headerRow = header.insertRow(0);    
+    let headerCell = headerRow.insertCell(0);
+    headerCell.innerHTML = "<b>Demographic Info</b>";
+
+    // add table body
+    let body = table.createTBody();
+    for (i=0; i<values.length; i++){
+        let row = body.insertRow(i);
+        let text0 = keys[i];
+        let text1 = values[i];
+        let cell0 = row.insertCell(0);
+        let cell1 = row.insertCell(1);
+        let newText0 = document.createTextNode(text0);
+        cell0.appendChild(newText0);
+        let newText1 = document.createTextNode(text1);
+        cell1.appendChild(newText1);
+    }
+    };
+
+
 function topTenOTU(selectedID, sampleData) {
-    console.log(`top ten function: ${selectedID}`);
     let i = selectedID;
     let subject = sampleData[i];
     let otuTen = subject['otu_ids'].slice(0,10).map((item)=> 'OTU_'+ item.toString()).reverse();
@@ -76,15 +106,18 @@ function topTenOTU(selectedID, sampleData) {
 
     let data = [trace1];
     let layout = {
-        title: "Belly Buttons"
+        title: "Top Ten Microbial OTU's of Subject",
+        xaxis:{
+            title: "OTU Count"
+        }
     };
     
     Plotly.newPlot("top-ten", data, layout);
     
 };
 
-function bubble(sampleData){
-    let i = 0;
+function bubble(selectedID, sampleData){
+    let i = selectedID;
     let subject = sampleData[i];
     let otu = subject['otu_ids'];
     let sampleVal = subject['sample_values'];
@@ -104,15 +137,18 @@ function bubble(sampleData){
       var data = [trace1];
       
       var layout = {
-        title: 'Sample Size of OTUs',
+        title: 'Sample Size of All OTUs Present',
         showlegend: false,
+        xaxis:{
+            title: "OTU ID"
+        },
       };
       
       Plotly.newPlot('bubble', data, layout);
  
 };
-function gauge(sampleData){
-    let i = 0;
+function gauge(selectedID, sampleData){
+    let i = selectedID;
     let subject = sampleData[i];
     let washFrequency = subject['wfreq'];
       
@@ -129,30 +165,30 @@ function gauge(sampleData){
         gauge: {
             bar: { color: "darkblue" },
             axis: { range: [null, 10] },
-            // steps: [
-            //   { range: [0, 2], color: "lightyellow" },
-            //   { range: [1, 3], color: "yellow" },
-            //   { range: [2, 4], color: "yellowgreen" },
-            //   { range: [3, 5], color: "lightgreen" },
-            //   { range: [4, 6], color: "green" },
-            //   { range: [5, 7], color: "bluegreen" },
-            //   { range: [6, 8], color: "lightblue" },
-            //   { range: [7, 9], color: "blue" },
-            //   { range: [8, 10], color: "darkblue" },
-            //   { range: [9, 11], color: "black" },
-            // ],
             steps: [
-                { range: [0, 2]},
-                { range: [1, 3]},
-                { range: [2, 4]},
-                { range: [3, 5]},
-                { range: [4, 6]},
-                { range: [5, 7]},
-                { range: [6, 8]},
-                { range: [7, 9]},
-                { range: [8, 10]},
-                { range: [9, 11]},
-              ],
+              { range: [0, 2], color: "lightyellow" },
+              { range: [1, 3], color: "yellow" },
+              { range: [2, 4], color: "yellowgreen" },
+              { range: [3, 5], color: "lightgreen" },
+              { range: [4, 6], color: "green" },
+              { range: [5, 7], color: "bluegreen" },
+              { range: [6, 8], color: "lightblue" },
+              { range: [7, 9], color: "blue" },
+              { range: [8, 10], color: "darkblue" },
+              { range: [9, 11], color: "black" },
+            ],
+            // steps: [
+            //     { range: [0, 2]},
+            //     { range: [1, 3]},
+            //     { range: [2, 4]},
+            //     { range: [3, 5]},
+            //     { range: [4, 6]},
+            //     { range: [5, 7]},
+            //     { range: [6, 8]},
+            //     { range: [7, 9]},
+            //     { range: [8, 10]},
+            //     { range: [9, 11]},
+            //   ],
             // threshold: {
             //   line: { color: "red", width: 4 },
             //   thickness: 0.75,
