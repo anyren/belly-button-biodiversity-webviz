@@ -113,10 +113,21 @@ function topTenOTU(selectedID, sampleData) {
 
     let data = [trace1];
     let layout = {
-        title: "Top Microbial OTU's of Subject",
+        title: {
+            text: "Top Microbial OTU's of Subject",
+            font: {
+                size: 18
+            },
+        },
         xaxis:{
-            title: "OTU Count"
-        }
+            title: {
+                text:  "OTU Count",
+                font:{
+                    color: '#7f7f7f'
+                }
+            }
+        },
+        
     };
     
     Plotly.newPlot("top-ten", data, layout);
@@ -134,8 +145,9 @@ function bubble(selectedID, sampleData){
         x: otu,
         y: sampleVal,
         mode: 'markers',
+        text: labels,
         marker: {
-          color:sampleVal,
+          color:otu,
           colorscale: 'Bluered',
           size: sampleVal
         }
@@ -144,10 +156,20 @@ function bubble(selectedID, sampleData){
       var data = [trace1];
       
       var layout = {
-        title: 'Sample Size of All OTUs Present',
+        title: {
+            text: 'Sample Size of All OTUs Present',
+            font:{
+                size:18
+            }
+        },
         showlegend: false,
         xaxis:{
-            title: "OTU ID"
+            title: {
+                text: "OTU ID",
+                font:{
+                    color: '#7f7f7f'
+                }
+            },
         },
       };
       
@@ -186,35 +208,12 @@ function gauge(selectedID, sampleData){
               { range: [8, 10], color: "#e8e5f3" },
               { range: [9, 11], color: "#f7f6fb" },
             ],
-            // steps: [
-            //     { range: [0, 2]},
-            //     { range: [1, 3]},
-            //     { range: [2, 4]},
-            //     { range: [3, 5]},
-            //     { range: [4, 6]},
-            //     { range: [5, 7]},
-            //     { range: [6, 8]},
-            //     { range: [7, 9]},
-            //     { range: [8, 10]},
-            //     { range: [9, 11]},
-            //   ],
-            // threshold: {
-            //   line: { color: "red", width: 4 },
-            //   thickness: 0.75,
-            //   value: 490
-            // }
         }
     }
     ];
-    
     var layout = { 
         margin: { t: 0, b: 0 } 
     };
-
-    
-      
       Plotly.newPlot('gauge', data, layout);
  
 };
-  
-// init();

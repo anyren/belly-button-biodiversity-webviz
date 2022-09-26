@@ -1,13 +1,15 @@
-#subject{
-    background-color: #f7f6fb ;
-    border-style: solid;
-    border-width: 1px;
-    border-color: lightgrey;
-    padding: 10px;
-}
-#table{
-    padding: 10px;
-}
 .jumbotron{
     background-color: #f7f6fb;
+}
+p{
+    font-size: larger;
+}
+.footer{
+    background-color: #f7f6fb;
+}
+.card-header{
+    background-color: #f7f6fb;
+}
+.card{
+    
 }

@@ -14,40 +14,41 @@
         <div class="container-fluid py-5 text-center">
             <h1 class="display-5 fw-bold">Belly Button Biodiversity Dashboard</h1>
             <p>To explore the dataset, change the subject ID to update charts</p>
-            <small>OTU = Operational Taxonomic Units</small>
-            
         </div>
     </div>    
     <div class="row">
-        <div class="col-3">
-            <container>
-            <div class="row">
-                <div class="col-12 g-4" id="subject">
+        <div class="col-md-3 gy-4">
+            <div class="card">
+                <div class="card-header">
                     <h6>Test Subject ID:</h6>
                     <!-- dropdown -->
                     <select id="selInd"></select>  
                 </div>
+                <!-- table -->
+                <table class="table table-sm table-hover" id="demo"></table>
             </div>
-            <div class="row">
-                <div class="col-12" id="table">
-                    <!-- table -->
-                    <table class="table table-sm table-hover" id="demo"></table> 
-                </div>
-            </div>
-            </container>
-            
-       </div>
-        <div class="col-5">
+        </div>
+        <div class="col-md-5">
             <!-- graph -->
             <div id="top-ten"></div>
         </div>
-        <div class="col-4">
+        <div class="col-md-4">
             <div id="gauge"></div>
         </div>
     </div>
     <div class="row">
-        <div class="col-12">
+        <div class="col-md-12">
+        </div>
+    </div>
+    <div class="row">
+        <div class="col-md-12">
             <div id="bubble"></div>
+        </div>
+    </div>
+    <div class="row footer">
+        <div class="col-md-12 text-center">
+            <small><a href="http://robdunnlab.com/projects/belly-button-biodiversity/" target="blank">Click here</a>  for more information on the Belly Button Biodiversity project and to find source data.</small><br>
+            <small>OTU = Operational Taxonomic Units</small>
         </div>
     </div>
 
