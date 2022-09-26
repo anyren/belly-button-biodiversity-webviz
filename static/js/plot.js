@@ -70,8 +70,12 @@ function demoTable(selectedID, metadata){
     // add header 
     let header = table.createTHead();
     let headerRow = header.insertRow(0);    
-    let headerCell = headerRow.insertCell(0);
-    headerCell.innerHTML = "<b>Demographic Info</b>";
+    let headerCell = document.createElement("TH");
+    headerCell.colSpan = 2;
+    headerCell.innerHTML = "Demographic Info";
+    headerRow.appendChild(headerCell)
+    
+    header.classList.add("table-light");
 
     // add table body
     let body = table.createTBody();
@@ -101,12 +105,15 @@ function topTenOTU(selectedID, sampleData) {
         y:otuTen,
         type: "bar",
         orientation: "h",
-        text: labelTen
+        text: labelTen,
+        marker: {
+            color: 'rgb(142,124,195)'
+          },
     };
 
     let data = [trace1];
     let layout = {
-        title: "Top Ten Microbial OTU's of Subject",
+        title: "Top Microbial OTU's of Subject",
         xaxis:{
             title: "OTU Count"
         }
@@ -159,23 +166,25 @@ function gauge(selectedID, sampleData){
             y: [0, 1] 
         },
         value: washFrequency,
-        title: { text: "Wash Frequency" },
+        title: { 
+            text: "Belly Button Wash Frequency <br><sup>Scrubs per week</sup>" 
+        },
         type: "indicator",
         mode: "gauge+number",
         gauge: {
-            bar: { color: "darkblue" },
+            bar: { color: "#3d3d3d" },
             axis: { range: [null, 10] },
             steps: [
-              { range: [0, 2], color: "lightyellow" },
-              { range: [1, 3], color: "yellow" },
-              { range: [2, 4], color: "yellowgreen" },
-              { range: [3, 5], color: "lightgreen" },
-              { range: [4, 6], color: "green" },
-              { range: [5, 7], color: "bluegreen" },
-              { range: [6, 8], color: "lightblue" },
-              { range: [7, 9], color: "blue" },
-              { range: [8, 10], color: "darkblue" },
-              { range: [9, 11], color: "black" },
+              { range: [0, 2], color: "#7058b3" },
+              { range: [1, 3], color: "#7f69bb" },
+              { range: [2, 4], color: "#8e7bc3" },
+              { range: [3, 5], color: "#9d8dcb" },
+              { range: [4, 6], color: "#ac9ed3" },
+              { range: [5, 7], color: "#bbb0db" },
+              { range: [6, 8], color: "#cac2e3" },
+              { range: [7, 9], color: "#d9d3eb" },
+              { range: [8, 10], color: "#e8e5f3" },
+              { range: [9, 11], color: "#f7f6fb" },
             ],
             // steps: [
             //     { range: [0, 2]},
